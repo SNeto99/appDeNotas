@@ -3,7 +3,7 @@ import Nota from '../models/Nota.js';
 
 class NotaController {
     static getNotas(req, res) {
-        banco.query("SELECT * FROM notas", (err, results, fields) => {
+        banco.query("SELECT * FROM notas ORDER BY id DESC", (err, results, fields) => {
             if (err) {
                 console.error("Erro ao consultar banco de dados:", err);
                 return res
