@@ -15,22 +15,25 @@ function updateItemList(items) {
     const converter = new showdown.Converter();
     const listElement = $("#markdownResult");
     listElement.empty();
-    items.forEach((nota) => {
-        const html = converter.makeHtml(nota.texto);
-        listElement.append(
-            `<li class="list-group-item">
-                    <div>${html}</div>
-                    <div class="action-buttons">
-                        <button class="btn-icon" onclick="editItem('${nota.id}')">
-                            <i class="fas fa-pencil"></i>
-                        </button>
-                        <button class="btn-icon" onclick="deleteItem('${nota.id}')">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </li>`
-        );
-    });
+
+    if (Array.isArray(items)){
+        items.forEach((nota) => {
+            const html = converter.makeHtml(nota.texto);
+            listElement.append(
+                `<li class="list-group-item">
+                        <div>${html}</div>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="editItem('${nota.id}')">
+                                <i class="fas fa-pencil"></i>
+                            </button>
+                            <button class="btn-icon" onclick="deleteItem('${nota.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </li>`
+            );
+        });
+    }
 }
 
 

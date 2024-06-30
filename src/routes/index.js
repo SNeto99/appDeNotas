@@ -9,13 +9,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const routes = (app) => {
-    app.route("/123appdenotas").get((req, res) => {
-        res.status(200).sendFile(
-            path.join(__dirname, "../../views/index.html")
-        );
+    app.get("/", (req, res) => {
+        res.status(404).send();
     });
-    
-    app.use(express.json(), notas);
+
+    app.route("/123appdenotas").get((req, res) => {
+        res.status(200).sendFile(path.join(__dirname, "../../views/index.html"));
+    });
+
+    app.use("/123appdenotas", express.json(), notas);
+
+    app.get('*', (req, res) => {
+        res.redirect('/');
+    });
 };
 
 export default routes;
