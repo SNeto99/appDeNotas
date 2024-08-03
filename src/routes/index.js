@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 
 const routes = (app) => {
     app.get("/", (req, res) => {
-        res.status(404).send("ok");
+        res.status(200).send("Hello World");
     });
 
     app.route("/123appdenotas").get((req, res) => {
