@@ -1,12 +1,17 @@
+const url = ".";
+
 function fetchItems() {
+    console.log("fetching itens")
     $.ajax({
-        url: "/notas",
+        url: `${url}/notas`,
         type: "GET",
     })
         .done((response) => {
+            console.log(response)
             updateItemList(response);
         })
-        .fail(() => {
+        .fail((error) => {
+            console.error(error)
             Swal.fire("Erro", "Erro ao buscar itens.", "error");
         });
 }
@@ -44,7 +49,7 @@ function addItem() {
         return;
     }
     $.ajax({
-        url: "/notas",
+        url: `${url}/notas`,
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({ texto: text })
@@ -59,7 +64,7 @@ function addItem() {
 function editItem(id) {
     // Primeiro, busca o texto atual do item para preencher na textarea
     $.ajax({
-        url: `/notas/${id}`,
+        url: `${url}/notas/${id}`,
         type: "GET"
     }).done((nota) => {
         Swal.fire({
@@ -106,7 +111,7 @@ function deleteItem(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `/notas/${id}`,
+                url: `${url}/notas/${id}`,
                 type: "DELETE",
             })
                 .done(() => {

@@ -17,7 +17,7 @@ const routes = (app) => {
         res.status(200).sendFile(path.join(__dirname, "../../views/index.html"));
     });
 
-    app.use("/123appdenotas", express.json(), notas);
+    app.use("/123appdenotas/", express.json(), notas);
 
     app.get('*', (req, res) => {
         res.redirect('/');
