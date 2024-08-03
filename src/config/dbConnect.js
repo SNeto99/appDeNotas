@@ -6,12 +6,16 @@ const user = process.env.USER
 const password = process.env.PASSWORD
 const database = process.env.DATABASE
 
-const banco  = mysql.createConnection({
+const dadosBanco = {
     host: host,
     user: user,
     password: password,
     database: database,
-});
+};
+
+console.log(dadosBanco);
+
+const banco  = mysql.createConnection(dadosBanco);
 
 // Conectar ao banco de dados
 banco.connect((err) => {
