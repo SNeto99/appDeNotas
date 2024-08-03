@@ -82,7 +82,7 @@ function editItem(id) {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: `${url}/notas/${id}`,
+                    url: `/notas/${id}`,
                     type: "PUT",
                     contentType: "application/json",
                     data: JSON.stringify({ texto: result.value })
