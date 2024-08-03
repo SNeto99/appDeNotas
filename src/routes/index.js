@@ -1,5 +1,5 @@
 import express from "express";
-// import notas from "./notasRoutes.js";
+import notas from "./notasRoutes.js";
 import path from "path";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
@@ -17,7 +17,7 @@ const routes = (app) => {
         res.status(200).sendFile(path.join(__dirname, "../../views/index.html"));
     });
 
-    // app.use("/123appdenotas", express.json(), notas);
+    app.use("/123appdenotas", express.json(), notas);
 
     app.get('*', (req, res) => {
         res.redirect('/');
