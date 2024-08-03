@@ -13,8 +13,6 @@ const dadosBanco = {
     database: database,
 };
 
-console.log(dadosBanco);
-
 const banco  = mysql.createConnection(dadosBanco);
 
 // Conectar ao banco de dados
