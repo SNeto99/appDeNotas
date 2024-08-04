@@ -22,7 +22,7 @@ function handleConnection() {
             console.error("Erro ao conectar: " + err.message);
             tentativas++;
             if (tentativas <= maximoTentativas) {
-                setTimeout(handleDisconnect, 2000); // Tentar reconectar após 2 segundos
+                setTimeout(handleConnection, 2000); // Tentar reconectar após 2 segundos
             } else {
                 console.error("Falha ao reconectar após " + maximoTentativas + " tentativas.");
             }
