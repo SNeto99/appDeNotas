@@ -13,19 +13,19 @@ const routes = (app) => {
         res.status(200).send("Hello World");
     });
 
-    // app.route("/appdenotas/login").get((req, res) => {
-    //     res.status(200).sendFile(path.join(__dirname, "../../views/login.html"));
-    // });
+    app.route("/appdenotas/login").get((req, res) => {
+        res.status(200).sendFile(path.join(__dirname, "../../views/login.html"));
+    });
 
-    // app.route("/appdenotas/cadastro").get((req, res) => {
-    //     res.status(200).sendFile(path.join(__dirname, "../../views/cadastro.html"));
-    // });
+    app.route("/appdenotas/cadastro").get((req, res) => {
+        res.status(200).sendFile(path.join(__dirname, "../../views/cadastro.html"));
+    });
 
-    app.route("/123appdenotas").get((req, res) => {
+    app.route("/appdenotas").get((req, res) => {
         res.status(200).sendFile(path.join(__dirname, "../../views/index.html"));
     });
 
-    app.use("/123appdenotas/", express.json(), notas);
+    app.use("/appdenotas/", express.json(), notas);
 
     app.get('*', (req, res) => {
         res.redirect('/');
