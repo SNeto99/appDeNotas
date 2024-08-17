@@ -1,16 +1,28 @@
+import banco from '../config/dbConnect.js';
+
+
 class Nota{
-    constructor(json){
 
-        if(!json.id || !json.codigo || !json.nome) 
-            throw new Error(`dados ausentes ao instanciar classe 'Nota'`)
+    static getNotas(){
 
+        banco.query("SELECT * FROM notas ORDER BY id DESC", (err, results, fields) => {
+            if (err) {
+                console.error("Erro ao consultar banco de dados:", err);
+                throw err
+            }
+            
+            return results;
+        });
 
-        this.id              = json.id
-        this.texto           = json.descricao ?? null
-        this.dataCriacao     = json.dataCriacao ?? null
-        this.dataAtualizacao = json.dataAtualizacao ?? null
 
     }
+
+
+
+
+
+
+
 }
 
 export default Nota

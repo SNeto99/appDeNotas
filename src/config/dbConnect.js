@@ -1,5 +1,5 @@
 import mysql from "mysql";
-import { config } from "dotenv";
+import "dotenv/config";
 
 const host = process.env.HOST
 const user = process.env.USER
@@ -11,17 +11,21 @@ const dadosBanco = {
     user: user,
     password: password,
     database: database,
+    
+    connectionLimit: 10,
 };
 
-const banco  = mysql.createConnection(dadosBanco);
+    const banco = mysql.createPool(dadosBanco);
+    
+    banco.on("connection", function (connection) {
+        console.log("Conectado ao banco de dados MySQL!");
+    });
 
-// Conectar ao banco de dados
-banco.connect((err) => {
-    if (err) {
-        return console.error("Erro ao conectar: " + err.message);
-    }
-    console.log("Conectado ao banco de dados MySQL!");
-});
+    banco.on("error", function (err) {
+        console.error("Erro ao conectar: " + err.message);
+        return;
+    });
 
-
-export default banco;
+    
+    
+    export default banco;
