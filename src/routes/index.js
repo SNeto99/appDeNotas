@@ -1,27 +1,44 @@
 import express from "express";
-import notas from "./notasRoutes.js";
+import notasRoutes from "./notasRoutes.js";
+import userRoutes from "./userRoutes.js";
+
 import path from "path";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
-
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+
 
 const routes = (app) => {
     app.get("/", (req, res) => {
         res.status(200).send("Hello World");
     });
 
-    app.route("/123appdenotas").get((req, res) => {
-        res.status(200).sendFile(path.join(__dirname, "../../views/index.html"));
-    });
 
-    app.use("/123appdenotas/", express.json(), notas);
+    app.use("/appdenotas", express.json(), notasRoutes);
+    app.use("/appdenotas", serveJsOnly, express.static(path.join(__dirname, "./../../views"))
+    );
 
+    app.use("/users", express.json(), userRoutes);
+
+
+    
     app.get('*', (req, res) => {
         res.redirect('/');
     });
 };
 
 export default routes;
+
+
+
+
+
+const serveJsOnly = (req, res, next) => {
+    if (path.extname(req.path).toLowerCase() === ".js") {
+        next();
+    } else {
+        res.status(403).send("Acesso negado");
+    }
+};

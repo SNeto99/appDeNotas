@@ -1,20 +1,49 @@
 const url = ".";
 
-function fetchItems() {
-    console.log("fetching itens")
-    $.ajax({
-        url: `${url}/notas`,
-        type: "GET",
-    })
-        .done((response) => {
-            console.log(response)
-            updateItemList(response);
+
+$(document).ready(function () {
+    const idUser = sessionStorage.getItem("idUser");
+    if (!idUser) {
+        $("#principal").html(/*html*/ `
+            <div class="alert alert-danger"> Faça login novamente</div>    
+        `);
+        return;
+    }
+
+    carregando();
+    fetchItems()
+        .then(() => {
+            Swal.close();
         })
-        .fail((error) => {
-            console.error(error)
+        .catch(() => {
             Swal.fire("Erro", "Erro ao buscar itens.", "error");
         });
+});
+
+
+
+function fetchItems() {
+    return new Promise((resolve, reject) => {
+        console.log("fetching itens");
+        $.ajax({
+            url: `${url}/notas?idUser=${encodeURIComponent(
+                sessionStorage.getItem("idUser")
+            )}`, // Incluindo idUser na URL
+            type: "GET",
+        })
+            .done((response) => {
+                console.log(response);
+                updateItemList(response);
+                resolve();
+            })
+            .fail((error) => {
+                console.error(error);
+                reject();
+            });
+    });
 }
+
+
 
 function updateItemList(items) {
     const converter = new showdown.Converter();
@@ -43,16 +72,22 @@ function updateItemList(items) {
 
 
 function addItem() {
+    const idUser = sessionStorage.getItem("idUser");
     const text = $("#texto").val();
+
     if (!text) {
         Swal.fire("Aviso", "Por favor, digite algum texto antes de adicionar.", "warning");
         return;
     }
+    
     $.ajax({
         url: `${url}/notas`,
         type: "POST",
         contentType: "application/json",
-        data: JSON.stringify({ texto: text })
+        data: JSON.stringify({ 
+            texto: text,
+            idUser: idUser
+        })
     }).done(() => {
         $("#texto").val(''); // Limpa o campo de texto após a adição
         fetchItems(); // Atualiza a lista após adicionar
@@ -64,7 +99,9 @@ function addItem() {
 function editItem(id) {
     // Primeiro, busca o texto atual do item para preencher na textarea
     $.ajax({
-        url: `${url}/notas/${id}`,
+        url: `${url}/notas/${id}?idUser=${encodeURIComponent(
+                sessionStorage.getItem("idUser")
+            )}`,
         type: "GET"
     }).done((nota) => {
         Swal.fire({
@@ -85,7 +122,10 @@ function editItem(id) {
                     url: `${url}/notas/${id}`,
                     type: "PUT",
                     contentType: "application/json",
-                    data: JSON.stringify({ texto: result.value })
+                    data: JSON.stringify({ 
+                        texto: result.value,
+                        idUser: sessionStorage.getItem("idUser")
+                    })
                 }).done(() => {
                     fetchItems(); // Atualiza a lista após a edição
                 }).fail(() => {
@@ -113,6 +153,9 @@ function deleteItem(id) {
             $.ajax({
                 url: `${url}/notas/${id}`,
                 type: "DELETE",
+                data: JSON.stringify({
+                    idUser: sessionStorage.getItem("idUser")
+                }),
             })
                 .done(() => {
                     fetchItems(); // Refresh list after deleting
@@ -125,6 +168,16 @@ function deleteItem(id) {
     });
 }
 
-$(document).ready(function () {
-    fetchItems();
-});
+
+
+
+function carregando() {
+    Swal.fire({
+        title: "Carregando",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didOpen: () => {
+            Swal.showLoading();
+        },
+    });
+}
