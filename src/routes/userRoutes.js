@@ -1,12 +1,6 @@
 import express from "express";
-import path from "path";
-import UserController from "../controllers/userController.js";
+import UserController from "../controllers/UserController.js";
 
-// import { fileURLToPath } from "node:url";
-// import { dirname } from "node:path";
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
 
 const userRoutes = express.Router();
 
