@@ -10,7 +10,9 @@ const __dirname = dirname(__filename);
 const notasRoutes = express.Router();
 
 
-
+notasRoutes.get("/app", (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, "../../views/app.html"));
+});
 
 notasRoutes.get("/notas", NotaController.getNotas);
 notasRoutes.get("/notas/:id", NotaController.getNota);

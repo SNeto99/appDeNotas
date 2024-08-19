@@ -1,5 +1,6 @@
 import express from "express";
 import notasRoutes from "./notasRoutes.js";
+import userRoutes from "./userRoutes.js";
 
 import path from "path";
 import { fileURLToPath } from "node:url";
@@ -16,9 +17,11 @@ const routes = (app) => {
 
 
     app.use("/appdenotas", express.json(), notasRoutes);
-
-    app.use("/appdenotas",serveJsOnly,express.static(path.join(__dirname, "./../../views"))
+    app.use("/appdenotas", serveJsOnly, express.static(path.join(__dirname, "./../../views"))
     );
+
+    app.use("/users", express.json(), userRoutes);
+
 
     
     app.get('*', (req, res) => {

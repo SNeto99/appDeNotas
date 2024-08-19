@@ -12,24 +12,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
+    <script src="appScript.js"></script>
 
     <style>
         body {
-            background-color: rgb(92, 92, 92); /* Cor de fundo como fallback */
-            background-image: url('https://static.wixstatic.com/media/e8b097_8fda4e0a85f84445b6c80bf631baa0b3~mv2.jpeg/v1/fill/w_1469,h_974,al_c,q_90/e8b097_8fda4e0a85f84445b6c80bf631baa0b3~mv2.webp');
-            background-size: contain; /* Ajusta a imagem para ser completamente visível */
-            background-position: center; /* Centraliza a imagem na tela */
-            background-repeat: no-repeat; /* Impede que a imagem se repita */
+            background-color: rgb(92, 92, 92);
             color: #333;
             font-family: 'Arial', sans-serif;
-            margin: 100px 0 0 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh; /* Garante que o body ocupe no mínimo a altura total da tela */
         }
         .card {
             background: white;
+            margin: 100px 0;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -82,22 +78,24 @@
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>App De Notas 😎😎👌👌🤏🤙</h1>
-        <p>
-            Fala meu chegado!!! 
-        </p>
-        <p>
-            Esse site é apenas um teste de implementação de um servidor. Seu propósito é ser um modesto aplicativo para você poder fazer algumas anotações 🤓
-        </p>
-        <p>
-            Fique a vontade para fazer anotações, procurar bugs, tentar quebrar o site ou me hackear, ou sla
-        </p>
-        <br>
-        <p>
-            contato: <a href="mailto:netoseno@hotmail.com">netoseno@hotmail.com</a>
-        </p>
-        <a class="btn btn-success" href="appdenotas/login">Ir para o login</a>
+    <div id="principal" class="card">
+        <textarea id="texto" class="form-control text-area" placeholder="Digite aqui seu Markdown:
+
+**Negrito** ou __Negrito__ 
+*Itálico* ou _Itálico_
+`Código`
+## Cabeçalhos
+[Link](http://url.com)
+![Imagem](http://url_da_imagem.com)
+> Citação
+- Lista
+
+Experimente combinar elementos para ver como o Markdown transforma seu texto em formatado!
+"></textarea>
+        <button class="btn btn-primary" onclick="addItem()">Adicionar</button>
+        <ul id="markdownResult" class="list-group mt-3">
+            <!-- Itens serão carregados aqui -->
+        </ul>
     </div>
 </body>
 </html>

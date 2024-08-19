@@ -1,11 +1,11 @@
+import { response } from "express";
 import banco from "../config/dbConnect.js";
 
-class Nota {
-    static getNotas(idUser) {
+class User {
+    static getUsers() {
         return new Promise((resolve, reject) => {
             banco.query(
-                "SELECT * FROM notas WHERE idUser = ? ORDER BY id DESC",
-                [idUser],
+                "SELECT * FROM users ORDER BY id DESC",
                 (err, results, fields) => {
                     if (err) {
                         console.error("Erro ao consultar banco de dados:", err);
@@ -17,11 +17,11 @@ class Nota {
         });
     }
 
-    static getNota(idUser, id) {
+    static getUser(id) {
         return new Promise((resolve, reject) => {
             banco.query(
-                "SELECT * FROM notas WHERE id = ? AND idUser = ?",
-                [id, idUser],
+                "SELECT * FROM users WHERE id = ?",
+                [id],
                 (err, results, fields) => {
                     if (err) {
                         console.error("Erro ao consultar banco de dados:", err);
@@ -33,28 +33,55 @@ class Nota {
         });
     }
 
-    static addNota(idUser, texto) {
+    static newUser(username, email, password) {
         return new Promise((resolve, reject) => {
             banco.query(
-                "INSERT INTO notas (texto, idUser) VALUES (?, ?)",
-                [texto, idUser],
+                "INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+                [username, email, password],
                 (err, results, fields) => {
                     if (err) {
                         console.error("Erro ao inserir dados:", err);
                         reject(err);
                     }
-                    console.log(results.insertId);
-                    resolve('12');
+                    resolve(results.insertId);
                 }
             );
         });
     }
 
-    static editarNota(idUser, id, texto) {
+    static login(login, password) {
         return new Promise((resolve, reject) => {
             banco.query(
-                "UPDATE notas SET texto = ? WHERE id = ? AND idUser = ?",
-                [texto, id, idUser],
+                "SELECT * FROM users WHERE (username like ? OR email like ?) AND password like ?",
+                [login, login, password],
+                (err, results, fields) => {
+                    if (err) {
+                        console.error("Erro ao inserir dados:", err);
+                        reject(err);
+                    }
+
+                    if(results.length == 0){
+                        var response = {
+                            isValid: false,
+                        };
+                    }else{
+                        var response = {
+                            isValid: true,
+                            idUser: results[0].id,
+                        };
+                    }
+
+                    resolve(response);
+                }
+            );
+        });
+    }
+
+    static editUsername(id, texto) {
+        return new Promise((resolve, reject) => {
+            banco.query(
+                "UPDATE users SET username = ? WHERE id = ?",
+                [texto, id],
                 (err, results, fields) => {
                     if (err) {
                         console.error("Erro ao atualizar dados:", err);
@@ -66,11 +93,11 @@ class Nota {
         });
     }
 
-    static deletarNota(idUser, id) {
+    static deleteUser(id) {
         return new Promise((resolve, reject) => {
             banco.query(
-                "DELETE FROM notas WHERE id = ? AND idUser = ?",
-                [id, idUser],
+                "DELETE FROM users WHERE id = ?",
+                [id],
                 (err, results, fields) => {
                     if (err) {
                         console.error("Erro ao deletar dados:", err);
@@ -83,4 +110,4 @@ class Nota {
     }
 }
 
-export default Nota;
+export default User;
