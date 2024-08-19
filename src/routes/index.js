@@ -17,12 +17,13 @@ const routes = (app) => {
 
 
     app.use("/appdenotas", express.json(), notasRoutes);
-    app.use("/appdenotas", serveJsOnly, express.static(path.join(__dirname, "./../../views"))
-    );
+    app.use("/appdenotas", serveJsOnly, express.static(path.join(__dirname, "./../../views")));
+    app.get('/123appdenotas', (req, res) => {
+        res.redirect('/appdenotas');
+    });
+    
 
     app.use("/users", express.json(), userRoutes);
-
-
     
     app.get('*', (req, res) => {
         res.redirect('/');
