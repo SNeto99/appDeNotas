@@ -55,7 +55,7 @@ class UserController {
         const { username, email, password } = req.body;
 
         User.newUser(username, email, password)
-            .then((insertId) =>
+            .then((idUser) =>
                 res.status(200).json({ status: "ok", id: idUser })
             )
             .catch((error) =>
