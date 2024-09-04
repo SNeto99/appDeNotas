@@ -37,9 +37,6 @@ class UserController {
             .then((result) =>{
                 console.log(result);
 
-                // if(result.isValid == true){
-                //     res.status(200).json({ status: "ok", id: result.idUser })
-                // }
                 result.isValid
                     ? res.status(200).json({ status: "ok", id: result.idUser })
                     : res.status(404).json({ message: "Usuário não encontrado" })

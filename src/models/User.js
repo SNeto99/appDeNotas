@@ -51,29 +51,38 @@ class User {
 
     static login(login, password) {
         return new Promise((resolve, reject) => {
-            banco.query(
-                "SELECT * FROM users WHERE (username like ? OR email like ?) AND password like ?",
-                [login, login, password],
-                (err, results, fields) => {
-                    if (err) {
-                        console.error("Erro ao inserir dados:", err);
-                        reject(err);
-                    }
+            try {
+                            banco.query(
+                                "SELECT * FROM users WHERE (username like ? OR email like ?) AND password like ?",
+                                [login, login, password],
+                                (err, results, fields) => {
+                                    if (err) {
+                                        console.error(
+                                            "Erro ao inserir dados:",
+                                            err
+                                        );
+                                        reject(err);
+                                        return;
+                                    }
 
-                    if(results.length == 0){
-                        var response = {
-                            isValid: false,
-                        };
-                    }else{
-                        var response = {
-                            isValid: true,
-                            idUser: results[0].id,
-                        };
-                    }
+                                    if (results.length == 0) {
+                                        var response = {
+                                            isValid: false,
+                                        };
+                                    } else {
+                                        var response = {
+                                            isValid: true,
+                                            idUser: results[0].id,
+                                        };
+                                    }
 
-                    resolve(response);
-                }
-            );
+                                    resolve(response);
+                                }
+                            ); 
+            } catch (error) {
+                throw "Erro ao realizar consulta: "+error;
+            }
+
         });
     }
 

@@ -1,10 +1,10 @@
 import mysql from "mysql";
 import "dotenv/config";
 
-const host = process.env.HOST
-const user = process.env.USER
-const password = process.env.PASSWORD
-const database = process.env.DATABASE
+const host = process.env.DATABASE_HOST
+const user = process.env.DATABASE_USER
+const password = process.env.DATABASE_PASSWORD
+const database = process.env.DATABASE_NAME
 
 const dadosBanco = {
     host: host,
