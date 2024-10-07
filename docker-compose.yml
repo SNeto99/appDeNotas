@@ -5,21 +5,21 @@ services:
     image: node:latest
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
-    labels:
-      - "traefik.enable=true"
-      # Router para HTTP
-      - "traefik.http.routers.appdenotas.entrypoints=web"
-      - "traefik.http.routers.appdenotas.rule=Host(`thisisasecret.site`)"
-      - "traefik.http.routers.appdenotas.middlewares=redirect-to-https"
-      # Router para HTTPS
-      - "traefik.http.routers.appdenotas-secure.entrypoints=websecure"
-      - "traefik.http.routers.appdenotas-secure.rule=Host(`thisisasecret.site`)"
-      - "traefik.http.routers.appdenotas-secure.tls=true"
-      - "traefik.http.routers.appdenotas-secure.tls.certresolver=leresolver"
-      # Middleware para redirecionamento
-      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-      # Servico de Load Balancer
-      - "traefik.http.services.appdenotas.loadbalancer.server.port=3000"
+    # labels:
+    #   - "traefik.enable=true"
+    #   # Router para HTTP
+    #   - "traefik.http.routers.appdenotas.entrypoints=web"
+    #   - "traefik.http.routers.appdenotas.rule=Host(`thisisasecret.site`)"
+    #   - "traefik.http.routers.appdenotas.middlewares=redirect-to-https"
+    #   # Router para HTTPS
+    #   - "traefik.http.routers.appdenotas-secure.entrypoints=websecure"
+    #   - "traefik.http.routers.appdenotas-secure.rule=Host(`thisisasecret.site`)"
+    #   - "traefik.http.routers.appdenotas-secure.tls=true"
+    #   - "traefik.http.routers.appdenotas-secure.tls.certresolver=leresolver"
+    #   # Middleware para redirecionamento
+    #   - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    #   # Servico de Load Balancer
+    #   - "traefik.http.services.appdenotas.loadbalancer.server.port=3000"
     environment:
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_USER: ${DATABASE_USER}
@@ -30,17 +30,17 @@ services:
       - ./:/app
     working_dir: /app
     # command: bash -c "npm install && npm start"
-    command: ./entrypoint.sh
+    command: bash -c "./entrypoint.sh"
     restart: unless-stopped
     networks:
-      # - app
+      - app
       - db-net
-      - web
+      # - web
 
 networks:
-  # app:
-    # driver: bridge
+  app:
+    driver: bridge
   db-net:
     external: true
-  web:
-    external: true
+  # web:
+    # external: true
