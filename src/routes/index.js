@@ -1,6 +1,7 @@
 import express from "express";
 import notasRoutes from "./notasRoutes.js";
 import userRoutes from "./userRoutes.js";
+import appRoutes from "./appRoutes.js";
 
 import path from "path";
 import { fileURLToPath } from "node:url";
@@ -11,20 +12,19 @@ const __dirname = dirname(__filename);
 
 
 const routes = (app) => {
-    app.get("/", (req, res) => {
+    app.get("/hello", (req, res) => {
         res.status(200).send("Hello World");
     });
 
 
-    app.use("/appdenotas", express.json(), notasRoutes);
-    app.use("/appdenotas", serveJsOnly, express.static(path.join(__dirname, "./../../views")));
-    app.get('/123appdenotas', (req, res) => {
-        res.redirect('/appdenotas');
-    });
+    app.use("/users", express.json(), userRoutes);
+    app.use("/notas", express.json(), notasRoutes);
+
+    
+    app.use("/", express.json(), appRoutes);
+    app.use("/", serveJsOnly, express.static(path.join(__dirname, "./../../views")));
     
 
-    app.use("/users", express.json(), userRoutes);
-    
     app.get('*', (req, res) => {
         res.redirect('/');
     });

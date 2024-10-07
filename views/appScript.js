@@ -1,4 +1,4 @@
-const url = ".";
+const url = "..";
 
 
 $(document).ready(function () {

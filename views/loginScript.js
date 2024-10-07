@@ -26,7 +26,7 @@ $(document).on("submit", "#loginForm", function (event) {
 
             sessionStorage.setItem("idUser", response.id);
 
-            window.location.href = "/appdenotas/app";
+            window.location.href = "/app";
         },
         error: function (xhr, status, error) {
             Swal.fire(

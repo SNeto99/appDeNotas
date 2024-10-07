@@ -10,28 +10,16 @@ const __dirname = dirname(__filename);
 const notasRoutes = express.Router();
 
 
-notasRoutes.get("/app", (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, "../../views/app.html"));
-});
-
-notasRoutes.get("/notas", NotaController.getNotas);
-notasRoutes.get("/notas/:id", NotaController.getNota);
-notasRoutes.post("/notas", NotaController.addNota);
-notasRoutes.put("/notas/:id", NotaController.editarNota);
-notasRoutes.delete("/notas/:id", NotaController.deletarNota);
 
 
-notasRoutes.get("/login", (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, "../../views/login.html"));
-});
+notasRoutes.get("", NotaController.getNotas);
+notasRoutes.get("/:id", NotaController.getNota);
+notasRoutes.post("", NotaController.addNota);
+notasRoutes.put("/:id", NotaController.editarNota);
+notasRoutes.delete("/:id", NotaController.deletarNota);
 
-notasRoutes.get("/cadastro", (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, "../../views/cadastro.html"));
-});
 
-notasRoutes.get("/", (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, "../../views/index.html"));
-});
+
 
 
 

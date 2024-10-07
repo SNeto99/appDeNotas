@@ -2,6 +2,7 @@ import User from "../models/User.js";
 
 class UserController {
     static getUsers(req, res) {
+        // console.log(req)
         User.getUsers()
             .then((results) => res.status(200).json(results))
             .catch((error) =>

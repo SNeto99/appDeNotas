@@ -62,7 +62,7 @@ $(document).on("submit", "#cadastroForm", function (event) {
             Swal.fire("Sucesso!", "Cadastro realizado com sucesso!", "success")
             .then((result)=>{
                 if(result.isConfirmed){
-                     window.location.href = "/appdenotas/app";
+                     window.location.href = "/app";
                 }
             })
         },
