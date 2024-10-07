@@ -29,9 +29,10 @@ $(document).on("submit", "#loginForm", function (event) {
             window.location.href = "/app";
         },
         error: function (xhr, status, error) {
+            console.log(xhr, status,error)
             Swal.fire(
                 "Erro!",
-                "Não foi possível realizar o cadastro: " + xhr.responseText,
+                "Não foi possível realizar o login: " + xhr.responseJSON.message,
                 "error"
             );
         },

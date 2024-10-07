@@ -2,7 +2,6 @@ import User from "../models/User.js";
 
 class UserController {
     static getUsers(req, res) {
-        // console.log(req)
         User.getUsers()
             .then((results) => res.status(200).json(results))
             .catch((error) =>
@@ -14,11 +13,13 @@ class UserController {
 
     static getUser(req, res) {
         const idUser = req.params.id;
-        User.getUser(idNota)
+        User.getUser(idUser)
             .then((result) =>
                 result
                     ? res.status(200).json(result)
-                    : res.status(404).json({ message: "Usuário não encontrado" })
+                    : res
+                          .status(404)
+                          .json({ message: "Usuário não encontrado" })
             )
             .catch((error) =>
                 res
@@ -27,22 +28,40 @@ class UserController {
             );
     }
 
-    static login(req, res){
+    static getUserByName(req, res) {
+        const username = req.query.username;
+        User.getUserByUsername(username)
+            .then((result) =>
+                result
+                    ? res.status(200).json(result)
+                    : res
+                          .status(404)
+                          .json({ message: "Usuário não encontrado" })
+            )
+            .catch((error) =>
+                res
+                    .status(500)
+                    .json({ message: `Falha na requisição: ${error.message}` })
+            );
+    }
 
+    static login(req, res) {
         const login = req.body.userInput;
         const password = req.body.passwordInput;
 
-        console.log(login, password)
+        console.log(login, password);
 
         User.login(login, password)
-            .then((result) =>{
+            .then((result) => {
                 console.log(result);
 
                 result.isValid
                     ? res.status(200).json({ status: "ok", id: result.idUser })
-                    : res.status(404).json({ message: "Usuário não encontrado" })
-
-            }).catch((error) =>
+                    : res
+                          .status(404)
+                          .json({ message: "Usuário não encontrado" });
+            })
+            .catch((error) =>
                 res
                     .status(500)
                     .json({ message: `Falha na requisição: ${error.message}` })
@@ -56,10 +75,12 @@ class UserController {
             .then((idUser) =>
                 res.status(200).json({ status: "ok", id: idUser })
             )
-            .catch((error) =>
+            .catch((error) =>{
+                console.log(error)
                 res
-                    .status(500)
-                    .json({ message: `Falha na requisição: ${error.message}` })
+                .status(500)
+                .json({ message: `Falha na requisição: ${error.message}` })
+            }
             );
     }
 

@@ -67,9 +67,10 @@ $(document).on("submit", "#cadastroForm", function (event) {
             })
         },
         error: function (xhr, status, error) {
+            console.log(xhr)
             Swal.fire(
                 "Erro!",
-                "Não foi possível realizar o cadastro: " + xhr.responseText,
+                "Não foi possível realizar o cadastro: " + xhr.responseJSON.message,
                 "error"
             );
         },
